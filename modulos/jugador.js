@@ -1,24 +1,24 @@
-import { groupBy } from '../script.js';
 
 export class Jugador {
   nombre;
   avatar;
   puntos;
   inventario;
-  vidaMax;
+  vidaMaxima;
   vida;
 
   /**
    * Crea una nueva instancia de Jugador.
    * @param {string} nombre - Nombre del jugador.
+   * @param {string} avatar - URL de la imagen del avatar del jugador.
    */
   constructor(nombre, avatar) {
     this.nombre = nombre;
     this.avatar = avatar;
     this.puntos = 0;
     this.inventario = [];
-    this.vidaMax = 100;
-    this.vida = this.vidaMax;
+    this.vidaMaxima = 100;
+    this.vida = this.vidaMaxima;
   }
 
   /**
@@ -43,7 +43,15 @@ export class Jugador {
    * @returns {number} Puntos de ataque totales.
    */
   get ataqueTotal() {
-    return this.inventario.reduce((total, item) => total + (item.bonus.ataque || 0), 0);
+    let ataque = 0;
+        // Recorremos el inventario
+        for (let item of this.inventario) {
+            // Los productos de tipo arma sumarán el bonus al ataque
+            if (item.tipo === "arma") {
+                ataque += item.bonus; // Sumamos el número
+            }
+        }
+        return ataque;
   }
 
   /**
@@ -51,7 +59,14 @@ export class Jugador {
    * @returns {number} Puntos de defensa totales.
    */
   get defensaTotal() {
-    return this.inventario.reduce((total, item) => total + (item.bonus.defensa || 0), 0);
+    let defensa = 0;
+        for (let item of this.inventario) {
+            // Los productos de tipo armadura sumarán el bonus a la defensa
+            if (item.tipo === "armadura") {
+                defensa += item.bonus;
+            }
+        }
+        return defensa;
   }
 
   /**
@@ -59,35 +74,15 @@ export class Jugador {
    * @returns {number} Puntos de vida totales.
    */
   get vidaTotal() {
-    const bonusVida = this.inventario.reduce((total, item) => total + (item.bonus.curacion || 0), 0);
-        
-        // Sumamos la vida base (this.vidaMax) más el bonus total
-        return this.vidaMax + bonusVida;
-  }
-
-  /**
-   * Agrupa los ítems del inventario por tipo.
-   * @returns {Object} Un objeto con listas de objetos agrupados por tipo.
-   */
-  inventarioPorTipo() {
-    return groupBy(this.inventario, item => item.tipo);
-  }
-
-  /**
-   * Devuelve una presentación detallada del jugador.
-   * @returns {Object} Descripción formateada del jugador.
-   */
-  mostrarJugador() {
-    return `
-      👤 ${this.nombre}
-      ❤️ Vida: ${this.vida}/${this.vidaMax}
-      ⭐ Puntos: ${this.puntos}
-      ⚔️ Ataque total: ${this.ataqueTotal}
-      🛡️ Defensa total: ${this.defensaTotal}
-      🎒 Inventario: ${this.inventario.length > 0
-          ? this.inventario.map(item => item.nombre).join(', ')
-          : 'Vacío'}
-    `;
+    let vidaExtra = 0;
+        for (let item of this.inventario) {
+            // Los productos de tipo consumible sumarán el bonus a la vida
+            if (item.tipo === "Consumible") {
+                vidaExtra += item.bonus;
+            }
+        }
+        // La vida total es la base (100) más lo que den los objetos
+        return this.vidaMaxima + vidaExtra;
   }
 
 }

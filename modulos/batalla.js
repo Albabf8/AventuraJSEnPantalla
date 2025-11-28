@@ -52,32 +52,3 @@ export function batalla(jugador, enemigo) {
     puntosGanados,
   };
 }
-
-
-  /**
- * Agrupa jugadores según su puntuación:
- * - "pro" si superan el umbral.
- * - "rookie" si no lo alcanzan.
- *
- * @param {Array<Jugador>} jugadores - Lista de jugadores.
- * @param {number} [umbral=300] - Puntos mínimos para ser "pro", por defecto 300.
- * @returns {Object} Jugadores agrupados por nivel.
- */
-export function agruparPorNivel(jugadores, umbral = 300) {
-  return groupBy(jugadores, jugador => (jugador.puntos >= umbral ? 'pro' : 'rookie'));
-}
-
-/**
- * Muestra el ranking final de jugadores en consola,
- * ordenados por puntuación de mayor a menor.
- * @param {Array<Jugador>} jugadores - Lista de jugadores.
- */
-export function mostrarRanking(jugadores) {
-  // Ordena de mayor a menor puntuación
-  const ordenados = jugadores.slice().sort((a, b) => b.puntos - a.puntos);
-
-  console.log('🏆 RANKING FINAL 🏆');
-  for (const jugador of ordenados) {
-    console.log(jugador.mostrarJugador());
-  }
-}

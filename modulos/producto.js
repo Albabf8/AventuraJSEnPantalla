@@ -1,4 +1,3 @@
-import { EUR } from '../script.js';
 
 export class Producto {
 
@@ -8,31 +7,26 @@ export class Producto {
    * @param {number} precio - Precio base del producto.
    * @param {string} rareza - Nivel de rareza (por ejemplo: "común", "raro", "épico").
    * @param {string} tipo - Tipo de producto (por ejemplo: "arma", "poción", "armadura").
-   * @param {Object} bonus - Objeto con los bonus del producto, por ejemplo { ataque: 5, defensa: 2 }.
+   * @param {number} bonus - Bonus de ataque, defensa o curación.
    */
   constructor(nombre, imagen, precio, rareza, tipo, bonus) {
     this.nombre = nombre;
     this.imagen = imagen;
     this.precio = precio;
     this.rareza = rareza;
-    this.tipo = tipo;
+    this.tipo = tipo; // "Arma", "Armadura", "Consumible"
     this.bonus = bonus;
+
   }
 
   /**
    * Devuelve una representación en texto del producto.
    * @returns {string} Descripción del producto.
    */
-  mostrarProducto() {
-    // Convierte los bonus a un texto como "ataque+5, defensa+2"
-    let bonusTexto = '';
-    for (const clave in this.bonus) {
-      bonusTexto += `${clave}+${this.bonus[clave]}, `;
-    }
-    // Quita la última coma y espacio
-    bonusTexto = bonusTexto.slice(0, -2);
-
-    return `${this.nombre} [${this.rareza}] (${this.tipo}) — ${EUR.format(this.precio)} — ${bonusTexto}`;
+  obtenerPrecioFormateado() {
+    // Dividimos entre 100 y fijamos 2 decimales
+    const euros = (this.precio / 100).toFixed(2);
+    return euros.replace('.', ',') + '€';
   }
 
   /**
@@ -48,6 +42,6 @@ export class Producto {
     // Calcula el nuevo precio (Ejemplo: 200 * (1 - 0.25))
     const nuevoPrecio = Math.round(this.precio * (1 - porcentaje / 100));
 
-    return new Producto(this.nombre, this.imagen,nuevoPrecio, this.rareza, this.tipo, this.bonus);
+    return new Producto(this.nombre, this.imagen, nuevoPrecio, this.rareza, this.tipo, this.bonus);
   }
 }
