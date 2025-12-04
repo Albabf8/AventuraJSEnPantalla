@@ -43,17 +43,16 @@ function iniciarEscena2() {
     // Esto nos devuelve una NUEVA lista de productos con los precios cambiados
     const productosEnVenta = aplicarDescuentoPorRareza(rarezaAfortunada, 20);
 
-    // Recorremos la lista de productos. 'index' es la posición (0, 1, 2...)
+    // Recorremos la lista de productos. 
     productosEnVenta.forEach((producto, index) => {
         
         // Buscamos la cajita correspondiente (card-1, card-2, etc.)
         // Sumamos +1 al index porque tus IDs empiezan en 1
         const cardDiv = document.getElementById(`card-${index + 1}`);
 
-        
-    
-
+    })
 
 }
+
 
 iniciarEscena1();

@@ -13,10 +13,16 @@
 }
 
 body {
-    background-image: url("imagenes/fondo.png");
+/* background-image: url("imagenes/fondo.png"); */
   background-size: cover;       
   background-repeat: no-repeat;
   background-position: center;
   height: 100vh;
   background-attachment: fixed;
+}
+
+.noDisponible{
+  cursor: default;
+  background: #fff7d1;
+  opacity: 30%;
 }
